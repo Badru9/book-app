@@ -61,10 +61,10 @@ router.put("/:id", async (req, res) => {
     return res.status(400).send("Some Fields are Missing");
   }
 
-  const user = await editUserById(id, bookData);
+  const user = await editUserById(parseInt(id), userData);
   return res.status(201).send({
     data: user,
-    message: "Update book successfully",
+    message: "Update user successfully",
   });
 });
 
@@ -78,7 +78,7 @@ router.patch("/:id", async (req, res) => {
 
     res.send({
       data: user,
-      message: "Patch book successfully",
+      message: "Patch user successfully",
     });
   } catch (error) {
     res.status(400).send(error.message);

@@ -23,6 +23,7 @@
     "react-dom": "^18",
     "react-icons": "^4.11.0",
     "react-toastify": "^9.1.3",
+    "source-map-support": "^0.5.21",
     "yup": "^1.3.2"
   },
   "devDependencies": {

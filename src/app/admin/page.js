@@ -7,11 +7,10 @@ import { axiosInstance } from "@/lib/axios";
 import Loading from "@/app/components/Loading";
 import { useFormik } from "formik";
 import { ToastContainer, toast } from "react-toastify";
-import { useCreateBook } from "./createBook/useCreateBook";
+import { useCreateBook } from "../feature/bookFeature/createBook/useCreateBook";
 import Navbar from "../components/Navbar";
-import { useDeleteBook } from "./deleteBook/useDeleteBook";
-import { usePatchBook } from "./patchBook/usePatchBook";
-import { useState } from "react";
+import { useDeleteBook } from "../feature/bookFeature/deleteBook/useDeleteBook";
+import { useEditBook } from "../feature/bookFeature/editBook/useEditBook";
 
 export default function Books() {
   const {
@@ -49,8 +48,29 @@ export default function Books() {
         bookId,
       } = formik.values;
 
+      if (
+        name === "" &&
+        price === 0 &&
+        bookId === 0 &&
+        publisher === "" &&
+        publicationYear === "" &&
+        placeOfPublication === "" &&
+        image === ""
+      ) {
+        toast.info("Data buku tidak boleh kosong!", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "light",
+        });
+        return;
+      }
+
       if (bookId) {
-        patchBook({
+        editBook({
           name,
           price: parseInt(price),
           publisher,
@@ -112,7 +132,7 @@ export default function Books() {
     },
   });
 
-  const { mutate: patchBook, isLoading: patchBookIsLoading } = usePatchBook({
+  const { mutate: editBook, isLoading: editBookIsLoading } = useEditBook({
     onSuccess: () => {
       refetchBooks();
     },
@@ -151,7 +171,7 @@ export default function Books() {
   };
 
   return (
-    <section className="flex flex-col-reverse items-center py-5 ">
+    <section className="flex flex-col-reverse w-full items-center ">
       <main className=" w-full p-10 flex flex-wrap gap-y-10">
         <ToastContainer
           position="top-right"
@@ -183,7 +203,7 @@ export default function Books() {
               <div className=" w-[300px] flex flex-col gap-2 bg-smokewhite px-5 py-2 rounded-md shadow-sm">
                 <p className="font-semibold">{book.name}</p>
                 <p className="text-teal-500 font-semibold">Rp. {book.price}</p>
-                <p className="font-light">
+                <p className="font-semibold">
                   {book.publisher} | {book.publicationYear}
                 </p>
                 <p className="font-light">{book.placeOfPublication}</p>
@@ -278,7 +298,7 @@ export default function Books() {
             className="px-2 rounded-md outline-teal-500 border-teal-500 border-2"
           />
         </div>
-        {createBookIsLoading || patchBookIsLoading ? (
+        {createBookIsLoading || editBookIsLoading ? (
           <p>Loading...</p>
         ) : (
           <button
@@ -289,6 +309,7 @@ export default function Books() {
           </button>
         )}
       </form>
+      <Navbar />
     </section>
   );
 }

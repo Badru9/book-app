@@ -9,7 +9,8 @@ const Context = createContext([]);
 const Provider = ({ children }) => {
   const [books, setBooks] = useState([]);
   const [users, setUsers] = useState([]);
-  const [quantity, setQuantity] = useState(0);
+  const [newUser, setNewUser] = useState("");
+  const [changePassword, setChangePassword] = useState("");
 
   const fetchBook = async () => {
     try {
@@ -18,11 +19,6 @@ const Provider = ({ children }) => {
     } catch (error) {
       console.log("Error cause by ", error);
     }
-  };
-
-  const bookId = (id) => {
-    const newBook = books.find((id) => id === id);
-    return newBook;
   };
 
   const { data } = useQuery({
@@ -45,8 +41,16 @@ const Provider = ({ children }) => {
     }
   };
 
-  const addBookToCart = () => {
-    setQuantity(quantity + 1);
+  const addBookToCart = (item) => {
+    const newBook = [
+      ...books,
+      {
+        ...item,
+        qty: 1,
+      },
+    ];
+
+    setBooks(newBook);
   };
 
   useEffect(() => {
@@ -61,6 +65,10 @@ const Provider = ({ children }) => {
         newUsername,
         newPassword,
         addBookToCart,
+        setNewUser,
+        newUser,
+        setChangePassword,
+        changePassword,
       }}
     >
       {children}

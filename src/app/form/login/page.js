@@ -6,16 +6,16 @@ import { Context } from "@/app/context/Context";
 import Link from "next/link";
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
-import { axiosInstance } from "@/lib/axios";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
-  const { getAllUsers, newUsername, newPassword } = useContext(Context);
+  const { getAllUsers, newUsername, newPassword, setNewUser } =
+    useContext(Context);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isShow, setIsShow] = useState(false);
+  const [isPending, setIsPending] = useState(false);
 
   const router = useRouter();
 
@@ -32,6 +32,7 @@ const Login = () => {
     const isPassword = newPassword.find((pass) => pass === password);
 
     if (username === "admin" && password === "admin") {
+      setIsPending(true);
       toast.success("Login sebagai Admin", {
         position: "top-right",
         autoClose: 2000,
@@ -42,12 +43,14 @@ const Login = () => {
         theme: "light",
       });
       setTimeout(() => {
+        setIsPending(false);
         router.push("/admin");
-      }, 3000);
+      }, 2000);
       return;
     }
 
     if (isUsername && isPassword) {
+      setIsPending(true);
       toast.success("Login Berhasil", {
         position: "top-right",
         autoClose: 2000,
@@ -58,8 +61,9 @@ const Login = () => {
         theme: "light",
       });
       setTimeout(() => {
-        router.push("/books");
-      }, 3000);
+        setIsPending(false);
+        router.push("/feature/main");
+      }, 2000);
     } else if (!isUsername || !isPassword) {
       toast.error("Username atau Password salah!", {
         position: "top-right",
@@ -85,6 +89,7 @@ const Login = () => {
         setUsername("");
       }, 1000);
     }
+    setNewUser(isUsername);
   };
 
   useEffect(() => {
@@ -138,16 +143,22 @@ const Login = () => {
             </button>
           </div>
         </div>
-        <p className="text-right font-light text-blue-400 cursor-pointer mt-4">
+        <Link
+          href="/form/forgot"
+          className="text-right font-light text-blue-400 cursor-pointer mt-4"
+        >
           Forgot Password ?
-        </p>
+        </Link>
 
         <button
           type="button"
-          className="bg-teal-500 text-white py-1 text-xl rounded-md mt-2 tracking-wide"
+          className={`bg-teal-500 text-white py-1 text-xl rounded-md mt-2 tracking-wide ${
+            isPending ? "opacity-80" : "opacity-100"
+          }`}
           onClick={handleLogin}
+          disabled={isPending}
         >
-          Login
+          {isPending ? "Loading..." : "Login"}
         </button>
       </form>
       <div className="mt-4 font-light">

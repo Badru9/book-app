@@ -70,7 +70,7 @@ router.put("/:id", async (req, res) => {
     return res.status(400).send("Some Fields are Missing");
   }
 
-  const book = await editBookById(id, bookData);
+  const book = await editBookById(parseInt(id), bookData);
   return res.status(201).send({
     data: book,
     message: "Update book successfully",

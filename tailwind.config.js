@@ -10,6 +10,9 @@ module.exports = {
       colors: {
         smokewhite: "#f5f5f5",
       },
+      rotate: {
+        30: "30deg",
+      },
     },
   },
   plugins: [],

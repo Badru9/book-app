@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Edu_TAS_Beginner } from "next/font/google";
 
-const edu = Edu_TAS_Beginner({
+export const edu = Edu_TAS_Beginner({
   weight: ["400", "500", "600"],
   subsets: ["latin"],
 });
@@ -19,20 +19,24 @@ export default function Home() {
         height={1000}
         className="bg-image"
       />
-      <div className="bg-white/70 w-auto h-auto px-20 py-10 flex items-center justify-center flex-col rounded-full backdrop-blur-sm ">
-        <h1 className={`text-9xl ${edu.className} font-bold `}>Books Store</h1>
+      <div className="bg-white/70 w-auto h-auto px-20 py-10 flex items-center justify-center flex-col rounded-full backdrop-blur-sm shadow-lg  ">
+        <h1
+          className={`text-9xl ${edu.className} font-bold pointer-events-none select-none `}
+        >
+          Books Store
+        </h1>
       </div>
       {/* Form */}
       <div className="flex gap-5 text-white mt-10">
         <Link
           href="/form/login"
-          className="bg-teal-500 text-5xl px-10 py-3 rounded-full hover:bg-teal-400 transition-all duration-200 ease-in-out"
+          className="bg-teal-500 text-5xl px-10 py-3 rounded-full hover:bg-teal-400 transition-all duration-300 ease-in-out shadow-md"
         >
           Login
         </Link>
         <Link
           href="/form/register"
-          className="bg-teal-500 text-5xl px-10 py-3 rounded-full hover:bg-teal-400 transition-all duration-200 ease-in-out"
+          className="bg-teal-500 text-5xl px-10 py-3 rounded-full hover:bg-teal-400 transition-all duration-300 ease-in-out shadow-md"
         >
           Register
         </Link>

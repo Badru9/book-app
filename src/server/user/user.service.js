@@ -41,9 +41,9 @@ const deleteUserById = async (id) => {
 };
 
 const editUserById = async (id, userData) => {
-  await getUserById(id);
+  await getUserById(parseInt(id));
 
-  await editUser(id, userData);
+  await editUser(parseInt(id), userData);
 };
 
 module.exports = {

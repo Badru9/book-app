@@ -8,7 +8,7 @@ const findUsers = async () => {
 const findUserById = async (id) => {
   const user = await prisma.user.findUnique({
     where: {
-      id: id,
+      id: parseInt(id),
     },
   });
   return user;
@@ -36,7 +36,7 @@ const deleteUser = async (id) => {
 const editUser = async (id, userData) => {
   const user = await prisma.user.update({
     where: {
-      id: id,
+      id: parseInt(id),
     },
     data: {
       name: userData.name,

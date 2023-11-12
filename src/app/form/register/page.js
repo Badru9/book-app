@@ -1,29 +1,35 @@
 "use client";
 
 import "react-toastify/ReactToastify.min.css";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Link from "next/link";
 import { axiosInstance } from "@/lib/axios";
 import { useRouter } from "next/navigation";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
+import { Context } from "@/app/context/Context";
 
 export default function Login() {
+  const { newUsername } = useContext(Context);
+  console.log(newUsername);
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isShow, setIsShow] = useState(false);
+  const [isPending, setIsPending] = useState(false);
 
   const router = useRouter();
 
   const handleRegister = async () => {
     try {
+      setIsPending(true);
       const newUser = {
         name: username,
         password: password,
       };
 
-      if (newUser.name === "" && newUser.password === "") {
-        toast.error("Input tidak boleh kosong!", {
+      if (newUser.name === "" || newUser.password === "") {
+        toast.error("Username atau Password tidak boleh kosong!", {
           position: "top-right",
           autoClose: 2000,
           hideProgressBar: false,
@@ -32,14 +38,37 @@ export default function Login() {
           draggable: true,
           theme: "light",
         });
+        return;
       }
 
+      const isUsername = newUsername.find((user) => user === newUser.name);
+
+      if (isUsername) {
+        toast.error("User sudah ada!", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "light",
+        });
+
+        setIsPending(false);
+
+        return;
+      }
+      setTimeout(() => {
+        setIsPending(false);
+        router.push("/form/login");
+      }, 1500);
       const createUser = await axiosInstance.post("/users", newUser);
-      return createUser.data;
+      return createUser;
     } catch (error) {
       console.log(error.message);
     }
-    router.refresh();
+
+    router.push("/form/login");
   };
 
   return (
@@ -89,12 +118,16 @@ export default function Login() {
             </button>
           </div>
         </div>
+
         <button
           type="button"
-          className="bg-teal-500 text-white py-1 text-xl rounded-md mt-2 tracking-wide"
+          className={`bg-teal-500 text-white py-1 text-xl rounded-md mt-2 tracking-wide ${
+            isPending ? "opacity-80" : "opacity-100"
+          }`}
           onClick={handleRegister}
+          disabled={isPending}
         >
-          Register
+          {isPending ? "Loading..." : "Register"}
         </button>
       </form>
       <div className="mt-4 font-light">
