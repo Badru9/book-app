@@ -7,8 +7,14 @@ import "react-toastify/ReactToastify.min.css";
 import { edu } from "@/app/page";
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { BsArrowLeftCircle } from "react-icons/bs";
 
 export default function Order({ params }) {
+  const router = useRouter();
+  const { status } = useSession();
+
   const [isAlreadyBuy, setIsAlreadyBuy] = useState(false);
 
   const { data: getBookById, isLoading: getBookIsLoading } = useGetBook({
@@ -26,18 +32,27 @@ export default function Order({ params }) {
 
   const discount = Math.round(Math.random() * 80);
 
-  // FIX #ff0000
-  // const newBook = Array(book).find((book) => book.bookId === params.bookId);
-  // console.log(newBook);
-
   // const { addBookToCart } = useContext(Context);
 
   const addBook = (bookName, bookPrice) => {
-    toast.success(
-      `Buku ${bookName} dibeli dengan harga RP. ${
-        bookPrice - (bookPrice * discount) / 100
-      }!`,
-      {
+    if (status === "authenticated") {
+      toast.success(
+        `Buku ${bookName} dibeli dengan harga RP. ${
+          bookPrice - (bookPrice * discount) / 100
+        }!`,
+        {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "light",
+        }
+      );
+      setIsAlreadyBuy(true);
+    } else {
+      toast.info("Ayo login dulu biar bisa beli :D", {
         position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
@@ -45,13 +60,19 @@ export default function Order({ params }) {
         pauseOnHover: true,
         draggable: true,
         theme: "light",
-      }
-    );
-    setIsAlreadyBuy(true);
+      });
+      setTimeout(() => {
+        router.push("/form/login");
+      }, 2000);
+    }
   };
 
   return (
-    <main className="flex flex-col  min-h-screen items-center">
+    <main className="flex flex-col  min-h-screen items-center relative">
+      <BsArrowLeftCircle
+        onClick={() => router.back()}
+        className="absolute top-5 left-5 cursor-pointer text-2xl text-teal-500"
+      />
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -106,7 +127,7 @@ export default function Order({ params }) {
           </button>
         </div>
       </div>
-      {isAlreadyBuy && (
+      {isAlreadyBuy ? (
         <Link
           href="/feature/main"
           className="fixed bottom-10 right-10 bg-teal-500 text-white px-4 py-1 rounded-full animate-bounce  "
@@ -114,7 +135,7 @@ export default function Order({ params }) {
           Mau beli buku yang lain?
           <span className="font-semibold tracking-wide ml-1">Ayo Check!</span>
         </Link>
-      )}
+      ) : null}
     </main>
   );
 }

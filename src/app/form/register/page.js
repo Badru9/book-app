@@ -11,7 +11,6 @@ import { Context } from "@/app/context/Context";
 
 export default function Login() {
   const { newUsername } = useContext(Context);
-  console.log(newUsername);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

@@ -1,8 +1,11 @@
+"use client";
+
 import "@/app/globals.css";
 import BgImage from "./assets/images/bg-book.jpg";
 import Link from "next/link";
 import Image from "next/image";
 import { Edu_TAS_Beginner } from "next/font/google";
+import { useState } from "react";
 
 export const edu = Edu_TAS_Beginner({
   weight: ["400", "500", "600"],
@@ -11,7 +14,13 @@ export const edu = Edu_TAS_Beginner({
 
 export default function Home() {
   return (
-    <main className="w-full flex flex-col items-center justify-center min-h-screen">
+    <main className="w-full flex flex-col items-center justify-center min-h-screen relative">
+      <Link
+        href={"/feature/main"}
+        className="absolute top-3 font-light underline right-3 hover:no-underline text-smokewhite hover:font-normal"
+      >
+        Skip for now
+      </Link>
       <Image
         src={BgImage}
         alt="bg-image"
@@ -21,7 +30,7 @@ export default function Home() {
       />
       <div className="bg-white/70 w-auto h-auto px-20 py-10 flex items-center justify-center flex-col rounded-full backdrop-blur-sm shadow-lg  ">
         <h1
-          className={`text-9xl ${edu.className} font-bold pointer-events-none select-none `}
+          className={`text-9xl ${edu.className} font-bold pointer-events-none select-none text-slate-800 `}
         >
           Books Store
         </h1>
@@ -30,13 +39,13 @@ export default function Home() {
       <div className="flex gap-5 text-white mt-10">
         <Link
           href="/form/login"
-          className="bg-teal-500 text-5xl px-10 py-3 rounded-full hover:bg-teal-400 transition-all duration-300 ease-in-out shadow-md"
+          className="bg-teal-500 text-5xl px-10 py-3 rounded-full  transition-all duration-300 ease-in-out shadow-md grayscale hover:grayscale-0"
         >
           Login
         </Link>
         <Link
           href="/form/register"
-          className="bg-teal-500 text-5xl px-10 py-3 rounded-full hover:bg-teal-400 transition-all duration-300 ease-in-out shadow-md"
+          className="bg-teal-500 text-5xl px-10 py-3 rounded-full  transition-all duration-300 ease-in-out shadow-md grayscale hover:grayscale-0"
         >
           Register
         </Link>

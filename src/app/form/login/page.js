@@ -7,6 +7,8 @@ import Link from "next/link";
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { signIn } from "next-auth/react";
+import { FaGithub } from "react-icons/fa";
 
 const Login = () => {
   const { getAllUsers, newUsername, newPassword, setNewUser } =
@@ -14,7 +16,7 @@ const Login = () => {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [isShow, setIsShow] = useState(false);
+  const [isShowPassword, setIsShowPassword] = useState(false);
   const [isPending, setIsPending] = useState(false);
 
   const router = useRouter();
@@ -30,24 +32,6 @@ const Login = () => {
   const handleLogin = () => {
     const isUsername = newUsername.find((name) => name === username);
     const isPassword = newPassword.find((pass) => pass === password);
-
-    if (username === "admin" && password === "admin") {
-      setIsPending(true);
-      toast.success("Login sebagai Admin", {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "light",
-      });
-      setTimeout(() => {
-        setIsPending(false);
-        router.push("/admin");
-      }, 2000);
-      return;
-    }
 
     if (isUsername && isPassword) {
       setIsPending(true);
@@ -97,7 +81,7 @@ const Login = () => {
   }, []);
 
   return (
-    <main className="w-full min-h-screen flex flex-col items-center justify-center ">
+    <main className="w-full min-h-screen flex flex-col items-center justify-center relative ">
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -126,7 +110,7 @@ const Login = () => {
           <label className="font-semibold tracking-wide">Password</label>
           <div className="flex relative items-center">
             <input
-              type={!isShow ? "password" : "text"}
+              type={!isShowPassword ? "password" : "text"}
               className="w-[300px] h-8 rounded-md hover:opacity-90 transition-all duration-200 ease-in-out bg-[#f5f5f5] px-3"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -135,11 +119,11 @@ const Login = () => {
 
             <button
               onClick={(e) => {
-                setIsShow(!isShow), e.preventDefault();
+                setIsShowPassword(!isShowPassword), e.preventDefault();
               }}
               className="absolute right-2"
             >
-              {!isShow ? <FaEye /> : <FaEyeSlash />}
+              {!isShowPassword ? <FaEye /> : <FaEyeSlash />}
             </button>
           </div>
         </div>
@@ -159,6 +143,23 @@ const Login = () => {
           disabled={isPending}
         >
           {isPending ? "Loading..." : "Login"}
+        </button>
+        <div className="w-full text-smokewhite flex flex-col items-center justify-center relative mt-2">
+          <p className="text-slate-800/60 bg-white w-10 flex justify-center z-10">
+            or
+          </p>
+          <span className=" bg-slate-800/60 w-full absolute top-3 h-[1px]"></span>
+        </div>
+        <button
+          onClick={() =>
+            signIn("github", {
+              redirect: true,
+              callbackUrl: "/feature/main",
+            })
+          }
+          className="flex justify-center py-1 rounded-md text-teal-500 w-full gap-2 items-center mt-2 border border-teal-500"
+        >
+          Login with <FaGithub />
         </button>
       </form>
       <div className="mt-4 font-light">
