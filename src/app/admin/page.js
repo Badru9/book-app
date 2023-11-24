@@ -309,7 +309,7 @@ export default function Books() {
           </button>
         )}
       </form>
-      <Navbar />
+      <Navbar state={"admin"} />
     </section>
   );
 }

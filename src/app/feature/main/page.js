@@ -1,7 +1,13 @@
+"use client";
+
 import Books from "@/app/components/Books";
 import Navbar from "@/app/components/Navbar";
+import { useSession } from "next-auth/react";
+import { useEffect } from "react";
 
 export default function Main() {
+  const { data: session, status } = useSession();
+
   return (
     <section className="relative">
       <Navbar />

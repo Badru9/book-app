@@ -62,7 +62,7 @@ export default function Order({ params }) {
         theme: "light",
       });
       setTimeout(() => {
-        router.push("/form/login");
+        router.push("/auth/login");
       }, 2000);
     }
   };

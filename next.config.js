@@ -17,6 +17,15 @@ const nextConfig = {
       {
         hostname: "ebooks.gramedia.com",
       },
+      {
+        hostname: "images.unsplash.com",
+      },
+      {
+        hostname: "avatars.githubusercontent.com",
+      },
+      {
+        hostname: "lh3.googleusercontent.com",
+      },
     ],
   },
 };

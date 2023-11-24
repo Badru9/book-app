@@ -5,7 +5,6 @@ import BgImage from "./assets/images/bg-book.jpg";
 import Link from "next/link";
 import Image from "next/image";
 import { Edu_TAS_Beginner } from "next/font/google";
-import { useState } from "react";
 
 export const edu = Edu_TAS_Beginner({
   weight: ["400", "500", "600"],
@@ -38,13 +37,13 @@ export default function Home() {
       {/* Form */}
       <div className="flex gap-5 text-white mt-10">
         <Link
-          href="/form/login"
+          href="/auth/login"
           className="bg-teal-500 text-5xl px-10 py-3 rounded-full  transition-all duration-300 ease-in-out shadow-md grayscale hover:grayscale-0"
         >
           Login
         </Link>
         <Link
-          href="/form/register"
+          href="/auth/register"
           className="bg-teal-500 text-5xl px-10 py-3 rounded-full  transition-all duration-300 ease-in-out shadow-md grayscale hover:grayscale-0"
         >
           Register

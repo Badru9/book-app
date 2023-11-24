@@ -10,6 +10,7 @@ import { TbUserQuestion } from "react-icons/tb";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { BsArrowLeftCircle } from "react-icons/bs";
 
 export default function Forgot() {
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -119,6 +120,10 @@ export default function Forgot() {
 
   return (
     <main className="w-full min-h-screen flex flex-col items-center justify-center ">
+      <BsArrowLeftCircle
+        onClick={() => router.back()}
+        className="absolute top-5 left-5 cursor-pointer text-2xl text-teal-500"
+      />
       <ToastContainer
         position="top-right"
         autoClose={5000}

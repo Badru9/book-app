@@ -5,8 +5,6 @@ import { useQuery } from "@tanstack/react-query";
 import { axiosInstance } from "@/lib/axios";
 import Loading from "@/app/components/Loading";
 import Link from "next/link";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/ReactToastify.min.css";
 
 export default function Books({ addBook }) {
   const { data, isLoading } = useQuery({
@@ -26,19 +24,7 @@ export default function Books({ addBook }) {
 
   return (
     <main className=" w-full p-10 flex flex-wrap gap-y-10">
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
-      {isLoading ? <Loading /> : null}
+      {/* {isLoading ? <Loading /> : null} */}
       {bookData?.map((book) => {
         return (
           <div
