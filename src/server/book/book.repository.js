@@ -49,6 +49,7 @@ const editBook = async (id, bookData) => {
       publicationYear: bookData.publicationYear,
       placeOfPublication: bookData.placeOfPublication,
       image: bookData.image,
+      stock: bookData.stock,
     },
   });
   return book;

@@ -15,6 +15,7 @@ model Book {
   publicationYear    String
   placeOfPublication String
   image              String
+  stock              Int    @default(0)
 }
 
 model User {

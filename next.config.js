@@ -26,6 +26,7 @@ const nextConfig = {
       {
         hostname: "lh3.googleusercontent.com",
       },
+      { hostname: "s3-ap-southeast-1.amazonaws.com" },
     ],
   },
 };

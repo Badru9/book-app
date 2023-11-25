@@ -64,7 +64,8 @@ router.put("/:id", async (req, res) => {
       bookData.publisher &&
       bookData.publicationYear &&
       bookData.placeOfPublication &&
-      bookData.image
+      bookData.image &&
+      bookData.stock
     )
   ) {
     return res.status(400).send("Some Fields are Missing");

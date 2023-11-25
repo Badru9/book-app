@@ -35,7 +35,8 @@ export default function Books() {
       publicationYear: "",
       placeOfPublication: "",
       image: "",
-      bookId: 0,
+      bookId: "",
+      stock: "",
     },
     onSubmit: () => {
       const {
@@ -46,6 +47,7 @@ export default function Books() {
         placeOfPublication,
         image,
         bookId,
+        stock,
       } = formik.values;
 
       if (
@@ -55,7 +57,8 @@ export default function Books() {
         publisher === "" &&
         publicationYear === "" &&
         placeOfPublication === "" &&
-        image === ""
+        image === "" &&
+        stock === 0
       ) {
         toast.info("Data buku tidak boleh kosong!", {
           position: "top-right",
@@ -77,7 +80,8 @@ export default function Books() {
           publicationYear,
           placeOfPublication,
           image,
-          bookId,
+          bookId: parseInt(bookId),
+          stock: parseInt(stock),
         });
 
         toast.info("Book edited!", {
@@ -97,6 +101,7 @@ export default function Books() {
           publicationYear,
           placeOfPublication,
           image,
+          stock,
         });
 
         toast.success("Buku berhasil ditambahkan", {
@@ -117,6 +122,7 @@ export default function Books() {
       formik.setFieldValue("placeOfPublication", "");
       formik.setFieldValue("image", "");
       formik.setFieldValue("bookId", 0);
+      formik.setFieldValue("stock", 0);
     },
   });
 
@@ -164,6 +170,7 @@ export default function Books() {
     formik.setFieldValue("bookId", book.bookId);
     formik.setFieldValue("name", book.name);
     formik.setFieldValue("price", book.price);
+    formik.setFieldValue("stock", book.stock);
     formik.setFieldValue("publisher", book.publisher);
     formik.setFieldValue("publicationYear", book.publicationYear);
     formik.setFieldValue("placeOfPublication", book.placeOfPublication);
@@ -171,7 +178,7 @@ export default function Books() {
   };
 
   return (
-    <section className="flex flex-col-reverse w-full items-center ">
+    <section className="flex flex-col-reverse w-full items-center">
       <main className=" w-full p-10 flex flex-wrap gap-y-10">
         <ToastContainer
           position="top-right"
@@ -202,7 +209,11 @@ export default function Books() {
               />
               <div className=" w-[300px] flex flex-col gap-2 bg-smokewhite px-5 py-2 rounded-md shadow-sm">
                 <p className="font-semibold">{book.name}</p>
-                <p className="text-teal-500 font-semibold">Rp. {book.price}</p>
+                <p className="text-teal-500 font-semibold">
+                  Rp. {book.price} |{" "}
+                  <span className="text-slate-800 font-normal">Stok : </span>{" "}
+                  {book.stock}
+                </p>
                 <p className="font-semibold">
                   {book.publisher} | {book.publicationYear}
                 </p>
@@ -225,7 +236,7 @@ export default function Books() {
         })}
       </main>
       <form
-        className="w-1/3 mt-3 flex flex-col items-center justify-between gap-3 px-10 py-5 bg-white border-teal-500 border-2 rounded-md"
+        className="w-1/3 mt-20 flex flex-col items-center justify-between gap-3 px-10 py-5 bg-white border-teal-500 border-2 rounded-md"
         onSubmit={formik.handleSubmit}
       >
         <div className="w-full flex justify-between">
@@ -245,6 +256,16 @@ export default function Books() {
             name="name"
             onChange={handleFormInput}
             value={formik.values.name}
+            className="px-2 rounded-md outline-teal-500 border-teal-500 border-2"
+          />
+        </div>
+        <div className="w-full flex justify-between">
+          <label>Stock</label>
+          <input
+            type="text"
+            name="stock"
+            onChange={handleFormInput}
+            value={formik.values.stock}
             className="px-2 rounded-md outline-teal-500 border-teal-500 border-2"
           />
         </div>

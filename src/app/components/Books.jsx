@@ -24,12 +24,12 @@ export default function Books({ addBook }) {
 
   return (
     <main className=" w-full p-10 flex flex-wrap gap-y-10">
-      {/* {isLoading ? <Loading /> : null} */}
+      {isLoading ? <Loading /> : null}
       {bookData?.map((book) => {
         return (
           <div
             key={book.bookId}
-            className=" flex px-10 w-1/2 items-center justify-between"
+            className=" flex px-10 w-1/2 items-center justify-between mt-20"
           >
             <Image
               src={book.image}
@@ -41,7 +41,9 @@ export default function Books({ addBook }) {
             />
             <div className=" w-[300px] flex flex-col gap-2 bg-smokewhite px-5 py-2 rounded-md shadow-sm">
               <p className="font-semibold">{book.name}</p>
-              <p className="text-teal-500 font-semibold">Rp. {book.price}</p>
+              <p className="text-teal-500 font-semibold">
+                Rp. {book.price} | Stok : {book.stock}
+              </p>
               <p className="font-semibold">
                 {book.publisher} | {book.publicationYear}
               </p>
